@@ -3,30 +3,12 @@
 
 using namespace std;
 
+const char *ACTIVITY_PATH = "../data/physical_activities.txt";
+
 bool file_exists(const string &file_path);
-bool extract_activities(const string &file_path, vector<Physical_Activity> &container);
+bool extract_activities(const char *file_path, vector<Physical_Activity> &container);
+bool update_activities(const char *file_path, Physical_Activity activity);
 
-int main()
-{
-    vector<Physical_Activity> temp;
-    string s = "myfile.txt";
-
-    if (file_exists(s))
-    {
-        extract_activities("myfile.txt", temp);
-    }
-
-    for (Physical_Activity act : temp)
-    {
-        cout << "\n------------------------------------\n";
-        cout << "Name: " << act.activity << "\n";
-        cout << "Time Elapsed: " << act.minutes_conducted << "\n";
-        cout << "Calories Burned: " << act.calories_burned << "\n"; 
-    }
-    
-
-    return 0;
-}
 
 bool file_exists(const string &file_path)
 {
@@ -41,14 +23,17 @@ bool file_exists(const string &file_path)
         cout << "Could not open file.\n";
 
         fclose(test);
+
         return false;
     }
     cout << "File opened.\n";
+
     fclose(test);
+
     return true;
 }
 
-bool extract_activities(const string &file_path, vector<Physical_Activity> &container)
+bool extract_activities(const char *file_path, vector<Physical_Activity> &container)
 {
     ifstream file(file_path);
 
@@ -102,8 +87,29 @@ bool extract_activities(const string &file_path, vector<Physical_Activity> &cont
         status = NONE;
     }
 
+    file.close();
+    return true;
+}
+
+bool update_activities(const char *file_path, Physical_Activity activity)
+{
+    ofstream file(file_path, ios::app);
+
+    if (!file) return false;
     
+    stringstream format_activity;   // format to Calix' File Notation
+    string activity_container;      // Final string variable
+
+    format_activity <<  "-N\n" << activity.activity << "\n" 
+                    << "-T\n" << activity.minutes_conducted << "\n"
+                    << "-C\n" << activity.calories_burned << "\n"
+                    << "--ENTRY--\n\n";
+
+    activity_container = format_activity.str(); // Combine multiple strings 
+
+    file << activity_container; // Append to text file
 
     file.close();
+
     return true;
 }
