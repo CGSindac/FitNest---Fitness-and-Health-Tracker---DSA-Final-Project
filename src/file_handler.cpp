@@ -6,7 +6,7 @@ using namespace std;
 const char *ACTIVITY_PATH = "../data/physical_activities.txt";
 
 bool file_exists(const string &file_path);
-bool extract_activities(const char *file_path, vector<Physical_Activity> &container);
+bool extract_activities(const char *file_path, vector<Physical_Activity> *container);
 bool update_activities(const char *file_path, Physical_Activity activity);
 
 
@@ -33,9 +33,11 @@ bool file_exists(const string &file_path)
     return true;
 }
 
-bool extract_activities(const char *file_path, vector<Physical_Activity> &container)
+bool extract_activities(const char *file_path, vector<Physical_Activity> *container)
 {
     ifstream file(file_path);
+
+    
 
     Physical_Activity temp;
 
@@ -56,7 +58,7 @@ bool extract_activities(const char *file_path, vector<Physical_Activity> &contai
         if (text == "--ENTRY--")
         {
             status = NONE;
-            container.push_back(temp);
+            container->push_back(temp);
             continue;
         }else if (text == "-N")
         {
