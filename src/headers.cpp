@@ -18,6 +18,7 @@
 
 // Important / Others
 #include <cstdlib>
+#include <ctime>
 #include <windows.h>
 #pragma once
 
