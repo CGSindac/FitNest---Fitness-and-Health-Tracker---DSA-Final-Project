@@ -20,6 +20,20 @@ enum Physical_Activities
     VIGOROUS_CALISTHENICS
 };
 
+enum Physical_Fitness_Level
+{
+    BEGINNER = 1,
+    INTERMEDIATE,
+    ADVANCED
+};
+
+enum Physical_Fitness_Goal
+{
+    CARDIO = 1,
+    STRENGTH,
+    ENDURANCE
+};
+
 const map<Physical_Activities, float> MET_value = 
 {
     {LIGHT_WALKING, 2.60},
@@ -35,6 +49,95 @@ const map<Physical_Activities, float> MET_value =
     {VIGOROUS_CALISTHENICS, 8.00}
 };
 
+const map<Physical_Fitness_Level, vector<Exercise>> Cardio_Exercises = 
+{
+  {
+    BEGINNER,
+    {
+        //Exercise Name, Description, Sets / Repetitions
+        {"Walking", "10 - 35 minutes"},
+        {"Jogging in Place", "10 - 35 minutes"},
+        {"Jumping Jacks", "10 - 35 minutes"},
+        {"Jump Rope", "10 - 35 minutes"}
+    }
+  },
+  {
+    INTERMEDIATE,
+    {
+        {"Jogging", "15 - 30 minutes"},
+        {"Jump Rope", "15 - 30 minutes"},
+        {"Lunge Jumps", "15 - 30 minutes"}
+    }
+  },
+  {
+    ADVANCED,
+    {
+        {"Jogging", "30 - 45 - minutes"},
+        {"Battle Ropes", "1 minute, 3 sets"},
+        {"Sprints", "30 seconds, 2 sets, 1 minute rest after each set"}
+    }
+  }
+};
+
+const map<Physical_Fitness_Level, vector<Exercise>> Endurance_Exercises = 
+{
+  {
+    BEGINNER,
+    {
+        //Exercise Name, Description, Sets / Repetitions
+        {"Squats", "2 sets of 25, 1 minute rest after each set"},
+        {"Calf/Heel Raise", "2 sets of 25, 1 minute rest after each set"},
+        {"Planks", "3 sets of 15 - 30 second holds, 1 minute rest after each set"}
+    }
+  },
+  {
+    INTERMEDIATE,
+    {
+        {"Squats", "2 sets of 30, 1 minute rest after each set"},
+        {"Calf/Heel Raise", "2 sets of 50, 1 minute rest after each set"},
+        {"Planks", "3 sets of 30 secons - 1 minute holds, 1 minute rest after each set"}
+    }
+  },
+  {
+    ADVANCED,
+    {
+        {"Squats", "2 sets of 50, 1 minute rest after each set"},
+        {"Calf/Heel Raise", "2 sets of 100, 1 minute rest after each set"},
+        {"Planks", "3 sets of 1 - 1.5 minute holds, 1 minute rest after each set"}
+    }
+  }
+};
+
+const map<Physical_Fitness_Level, vector<Exercise>> Strength_Exercises = 
+{
+  {
+    BEGINNER,
+    {
+        //Exercise Name, Description, Sets / Repetitions
+        {"Knee Push Ups", "2 sets of 10, 1 minute rest after each set"},
+        {"Bodyweight Squats", "2 sets of 25, 1 minute rest after each set"},
+        {"Negative Pullups", "3 sets of 5, 1 minute rest after each set"}
+    }
+  },
+  {
+    INTERMEDIATE,
+    {
+        {"Standard Push Ups", "3 sets of 10, 1 minute rest after each set"},
+        {"Squats with Resistance Bands", "3 sets of 30, 1 minute rest after each set"},
+        {"Resistance Bands Assisted Pullups", "3 sets of 10, 1 minute rest after each set"}
+    }
+  },
+  {
+    ADVANCED,
+    {
+        {"Decline Push Ups", "3 sets of 12, 1 minute rest after each set"},
+        {"Weighted Squats", "2 sets of 35, 1 minute rest after each set"},
+        {"Pullups", "2 sets of 10, 1 minute rest after each set"}
+    }
+  }
+};
+
+
 
 
 // Declare Global Variable:
@@ -46,9 +149,9 @@ void display_main_menu();
 void update_user_info_process();
 void display_user_status(const User &user);
 void display_activity(const Physical_Activity &physical_activity);
+void suggest_exercise(Physical_Fitness_Level physical_level, Physical_Fitness_Goal physical_goal);
 
 bool log_physical_activity(Physical_Activity *container);
-
 float calculate_BMI_score(float height, float weight);
 string classify_BMI(float BMI_score);
 
@@ -67,9 +170,53 @@ int main()
         {   
             cout << "\n-------------------Thank you for using FitNest-------------------\n";
             break;
-        }else if (choice == 4)
+        }else if (choice == 4) // Suggest Excersise
         {
-            // Suggest Excersise
+            int level, goal;
+            Physical_Fitness_Goal enum_goal;
+            Physical_Fitness_Level enum_level;
+            cout << "Let's find an exercise just for you...\n";
+
+            // Get physical activity goal
+            cout << "What is your physical activity goal?\n";
+            cout << "[1] - Cardiovascual Health\n";
+            cout << "[2] - Strength\n";
+            cout << "[3] - Endurance\n";
+
+            cout << "Selection: ";
+            cin >> goal;
+
+            while(goal < 1 || goal > 3)
+            {
+                cout << "Enter from the give choices...\nSelection: ";
+                cin >> goal;
+            }
+
+            if (goal == 1) enum_goal = CARDIO;
+            else if (goal == 2) enum_goal = STRENGTH;
+            else enum_goal = ENDURANCE;
+
+            // Get Physical Fitness Level
+            cout << "What is your physical fitness level?\n";
+            cout << "[1] - Beginner\n";
+            cout << "[2] - Intermediate\n";
+            cout << "[3] - Advanced\n";
+
+            cout << "Selection: ";
+            cin >> level;
+
+            while(level < 1 || level > 3)
+            {
+                cout << "Enter from the give choices...\nSelection: ";
+                cin >> level;
+            }
+
+            if (level == 1) enum_level = BEGINNER;
+            else if (level== 2) enum_level = INTERMEDIATE;
+            else enum_level = ADVANCED;
+
+            suggest_exercise(enum_level, enum_goal);
+
         }else if (choice == 3) // Generate Status Report
         {
             int report_choice;
@@ -385,4 +532,52 @@ void display_activity(const Physical_Activity &physical_activity)
     cout << "Minutes Elapsed: " << physical_activity.minutes_conducted << "\n";
     cout << "Calories Burned: " << physical_activity.calories_burned << "\n";
     cout << "------------------------------\n";
+}
+
+void suggest_exercise(Physical_Fitness_Level physical_level, Physical_Fitness_Goal physical_goal)
+{   
+    Exercise suggested_exercise;
+    
+    int vector_size = -1;
+
+    switch (physical_goal) // Get the number of available exercises in each category in _Exercises maps.
+    {
+    case CARDIO:
+        vector_size = Cardio_Exercises.at(physical_level).size();
+        break;
+    case ENDURANCE:
+        vector_size = Endurance_Exercises.at(physical_level).size();
+        break;
+    case STRENGTH:
+        vector_size = Strength_Exercises.at(physical_level).size();
+        break;
+    default:
+        cout << "Error -1\n";
+        break;
+    }
+    
+    // Give a random exercise based on the selected fields
+    srand(time(0));
+    int random_index = rand() % vector_size;
+
+    switch (physical_goal) 
+    {
+    case CARDIO:
+        suggested_exercise = Cardio_Exercises.at(physical_level).at(random_index);
+        break;
+    case ENDURANCE:
+        suggested_exercise = Endurance_Exercises.at(physical_level).at(random_index);
+        break;
+    case STRENGTH:
+        suggested_exercise = Strength_Exercises.at(physical_level).at(random_index);
+        break;
+    default:
+        cout << "Error -1\n";
+        break;
+    }
+
+    cout << "\n-------------------------------\n";
+    cout << "Exercise Suggestion: " << suggested_exercise.name << '\n';
+    cout << "Instruction/s:\n" << suggested_exercise.instruction << '\n';
+    cout << "-------------------------------\n";
 }
