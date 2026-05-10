@@ -2,7 +2,6 @@
 #include <fstream>
 #include <cstdio>
 
-
 // Input and Output
 #include <iostream>
 #include <iomanip>
