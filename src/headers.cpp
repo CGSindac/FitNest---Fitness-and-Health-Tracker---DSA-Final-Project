@@ -1,7 +1,7 @@
 // File Handling 
 #include <fstream>
 #include <cstdio>
-#include <stdio.h>
+
 
 // Input and Output
 #include <iostream>
@@ -19,6 +19,9 @@
 // Important / Others
 #include <cstdlib>
 #include <ctime>
+#include <limits>
 #include <windows.h>
+
+using namespace std;
 #pragma once
 
