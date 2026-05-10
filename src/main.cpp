@@ -3,14 +3,6 @@
 #include "functions.cpp"
 #include "file_handler.cpp"
 
-
-
-// Data Structures for Logging & Computing physical activities
-
-
-
-
-
 // Declare Global Variable:
 User user;
 
@@ -18,6 +10,7 @@ User user;
 int main()
 {
     int choice;
+    extract_user_info(USER_INFO, user);
 
     while (true)
     {   
@@ -47,7 +40,7 @@ int main()
             while(goal < 1 || goal > 3)
             {
                 cout << "Enter from the give choices...\nSelection: ";
-                cin >> goal;
+                get_value(goal, "Selection: ");
             }
 
             if (goal == 1) enum_goal = CARDIO;
@@ -65,7 +58,7 @@ int main()
             while(level < 1 || level > 3)
             {
                 cout << "Enter from the give choices...\nSelection: ";
-                cin >> level;
+                get_value(level, "Selection: ");
             }
 
             if (level == 1) enum_level = BEGINNER;
@@ -87,7 +80,7 @@ int main()
             while(report_choice <= 0 || report_choice > 2)
             {
                 cout << "Please select from the options... Selection: ";
-                cin >> report_choice;
+                get_value(report_choice, "Selection: ");
             }
 
             if (report_choice == 1) // Display User data
@@ -119,15 +112,17 @@ int main()
         {
             Physical_Activity *temp_activity = new Physical_Activity;
 
-            if (log_physical_activity ( temp_activity , user) )
+            if ( log_physical_activity ( temp_activity , user) )
             {
-                update_activities(ACTIVITY_PATH, *temp_activity);
+                update_activities(ACTIVITY_PATH, *temp_activity); // Updates the database when activity is successfully logged 
             }
 
             delete temp_activity;
         }else if (choice == 1)
         {
             update_user_info_process( user );
+            update_user_info(USER_INFO, user);
+            extract_user_info(USER_INFO, user);
         }else
         {
             cout << "Pleases select a valid option from the menu.";
@@ -135,22 +130,10 @@ int main()
 
         Sleep(2000); // Wait for 2 seconds
 
-        system("cls"); // Clear screen
+        //system("cls"); // Clear screen
     }
     return 0;
 }
 
-void display_main_menu()
-{
-    // Display Title
-    cout << "\n----------FitNest: A Health & Fitness Tracking Software----------\n\n";
 
-    // Show available options
-    cout << "What would you like to do?\n";
-    cout << "[1] - Update User Information.\n";
-    cout << "[2] - Log Physical Activity.\n";
-    cout << "[3] - Generate Status Report.\n";
-    cout << "[4] - Suggest Exercise.\n";
-    cout << "[5] - Quit.\n";
-}
 
