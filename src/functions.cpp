@@ -30,7 +30,7 @@ void get_value(int &container, string prompt = "")
 
 void get_value(float &container, string prompt = "") 
 {
-    cout << prompt << '\n';
+    cout << prompt;
 
     while(!(cin >> container))
     {
@@ -41,6 +41,20 @@ void get_value(float &container, string prompt = "")
 
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // This ignores any previous everything behind a newline character
     }
+}
+
+void display_main_menu()
+{
+    // Display Title
+    cout << "\n----------FitNest: A Health & Fitness Tracking Software----------\n\n";
+
+    // Show available options
+    cout << "What would you like to do?\n";
+    cout << "[1] - Update User Information.\n";
+    cout << "[2] - Log Physical Activity.\n";
+    cout << "[3] - Generate Status Report.\n";
+    cout << "[4] - Suggest Exercise.\n";
+    cout << "[5] - Quit.\n";
 }
 
 void update_user_info_process(User &user)
@@ -107,17 +121,16 @@ bool log_physical_activity(Physical_Activity *container, const User &user)
     cout << "[11] - Vigorous Calisthenics\n\n";
 
     int selection;
+
+    // Calculate Calories Burned
     string activity_name = "";
     float time, calories_burned, MET = -1;
 
     do{
-        cout << "Selection: ";
-        cin >> selection;
+        get_value(selection, "Selection: ");
     } while(0 >= selection && selection > 11);
 
-
-    cout << "How long did you do it (minutes)? ";
-    cin >> time;
+    get_value(time, "How long did you do it (minutes)? ");
 
     switch ( selection )
     {
@@ -196,6 +209,8 @@ bool log_physical_activity(Physical_Activity *container, const User &user)
     
     calories_burned = MET * user.weight * 0.0175 * time;
 
+
+    // Finalize Update
     cout << "\n-----------------------------------------\n";
     cout << "Physical Activity Log:\n";
     cout << "Activity: " << activity_name << '\n';
@@ -208,7 +223,7 @@ bool log_physical_activity(Physical_Activity *container, const User &user)
     cout << "Confirm Log? [Y/N]? ";
     cin >> update_choice;
 
-    while (  update_choice != 'Y' && update_choice != 'y' &&  update_choice != 'N' && update_choice == 'n')
+    while (update_choice != 'Y' && update_choice != 'y' &&  update_choice != 'N' && update_choice == 'n')
     {
        cout << "Invalid choice... Confirm Log? [Y/N]? ";
        cin >> update_choice; 
