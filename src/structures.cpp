@@ -4,6 +4,7 @@
 
 struct Physical_Activity
 {
+   string date = "";
    string activity= "";
    float minutes_conducted = -1;
    float calories_burned = -1;

@@ -49,7 +49,8 @@ bool extract_activities(const char *file_path, vector<Physical_Activity> *contai
         NONE = -1,
         NAME = 0,
         TIME = 1,
-        CAL_BURNED = 2
+        CAL_BURNED = 2,
+        DATE = 3
     };
 
     enum Read_State status = NONE;   
@@ -74,6 +75,10 @@ bool extract_activities(const char *file_path, vector<Physical_Activity> *contai
         {
             status = CAL_BURNED;
             continue;
+        }else if (text == "-D")
+        {
+            status = DATE;
+            continue;
         }
 
         // Create temporary physical activity variable
@@ -86,6 +91,9 @@ bool extract_activities(const char *file_path, vector<Physical_Activity> *contai
         }else if (status == CAL_BURNED)
         {
             temp.calories_burned = stof(text);
+        }else if (status == DATE)
+        {
+            temp.date = text;
         }
 
         status = NONE;
@@ -104,7 +112,8 @@ bool update_activities(const char *file_path, Physical_Activity activity)
     stringstream format_activity;   // format to Calix' File Notation
     string activity_container;      // Final string variable
 
-    format_activity <<  "-N\n" << activity.activity << "\n" 
+    format_activity << "-D\n" << activity.date << "\n" 
+                    << "-N\n" << activity.activity << "\n" 
                     << "-T\n" << activity.minutes_conducted << "\n"
                     << "-C\n" << activity.calories_burned << "\n"
                     << "--ENTRY--\n\n";

@@ -124,13 +124,13 @@ bool log_physical_activity(Physical_Activity *container, const User &user)
 
     // Calculate Calories Burned
     string activity_name = "";
-    float time, calories_burned, MET = -1;
+    float m_time, calories_burned, MET = -1;
 
     do{
         get_value(selection, "Selection: ");
     } while(0 >= selection && selection > 11);
 
-    get_value(time, "How long did you do it (minutes)? ");
+    get_value(m_time, "How long did you do it (minutes)? ");
 
     switch ( selection )
     {
@@ -207,14 +207,20 @@ bool log_physical_activity(Physical_Activity *container, const User &user)
         return false;
     }
     
-    calories_burned = MET * user.weight * 0.0175 * time;
+    calories_burned = MET * user.weight * 0.0175 * m_time;
 
+    time_t timestamp;
+    time(&timestamp);
+
+    string date = ctime(&timestamp);
+    date[24] = '\0';
 
     // Finalize Update
     cout << "\n-----------------------------------------\n";
     cout << "Physical Activity Log:\n";
+    cout << "Date Logged: " << date << "\n";
     cout << "Activity: " << activity_name << '\n';
-    cout << "Time Elapsed (minutes): " << time << '\n';
+    cout << "Time Elapsed (minutes): " << m_time << '\n';
     cout << "Calories Burned: " << setprecision(2) << fixed << calories_burned << '\n'; 
     cout << "-----------------------------------------\n";
 
@@ -236,8 +242,9 @@ bool log_physical_activity(Physical_Activity *container, const User &user)
     }
 
     cout << "Physical Activity Logged!\n";
+    container->date = date;
     container->activity = activity_name;
-    container->minutes_conducted = time;
+    container->minutes_conducted = m_time;
     container->calories_burned = calories_burned;
 
     return true;
@@ -270,8 +277,8 @@ void display_user_status(const User &user)
     cout << "\n------------------------------\n";
     cout << "Name: " << user.name << "\n";
     cout << "Age: " << user.age << "\n";
-    cout << "Height: " << user.height << "cm\n";
-    cout << "Weight: " << user.weight << "kg\n\n";
+    cout << "Height: " << user.height << " cm\n";
+    cout << "Weight: " << user.weight << " kg\n\n";
 
     cout << "BMI Score: " << setprecision(2) << fixed << BMI_score << "\n";
     cout << "BMI_Class: " << BMI_class << "\n";
@@ -283,6 +290,7 @@ void display_user_status(const User &user)
 void display_activity(const Physical_Activity &physical_activity)
 {
     cout << "\n------------------------------\n";
+    cout << "Date Logged: " << physical_activity.date << '\n';
     cout << "Activity: " << physical_activity.activity << "\n";
     cout << "Minutes Elapsed: " << physical_activity.minutes_conducted << "\n";
     cout << "Calories Burned: " << physical_activity.calories_burned << "\n";
@@ -331,8 +339,8 @@ void suggest_exercise(Physical_Fitness_Level physical_level, Physical_Fitness_Go
         break;
     }
 
-    cout << "\n-------------------------------\n";
+    cout << "\n------------------------------------------------------------------\n";
     cout << "Exercise Suggestion: " << suggested_exercise.name << '\n';
     cout << "Instruction/s:\n" << suggested_exercise.instruction << '\n';
-    cout << "-------------------------------\n";
+    cout << "--------------------------------------------------------------------\n";
 }

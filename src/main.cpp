@@ -57,7 +57,7 @@ int main()
 
             while(level < 1 || level > 3)
             {
-                cout << "Enter from the give choices...\nSelection: ";
+                cout << "Enter from the give choices...\n";
                 get_value(level, "Selection: ");
             }
 
@@ -66,6 +66,14 @@ int main()
             else enum_level = ADVANCED;
 
             suggest_exercise(enum_level, enum_goal);
+
+            char return_choice;
+
+            do
+            {
+                cout << "Return to Menu [Y]? ";
+                cin  >> return_choice;
+            } while (return_choice != 'Y' && return_choice != 'y');
 
         }else if (choice == 3) // Generate Status Report
         {
@@ -79,7 +87,7 @@ int main()
 
             while(report_choice <= 0 || report_choice > 2)
             {
-                cout << "Please select from the options... Selection: ";
+                cout << "Please select from the options...\n";
                 get_value(report_choice, "Selection: ");
             }
 
@@ -118,19 +126,23 @@ int main()
             }
 
             delete temp_activity;
+
+            Sleep(2000); // Wait for 2 seconds
         }else if (choice == 1)
         {
             update_user_info_process( user );
             update_user_info(USER_INFO, user);
             extract_user_info(USER_INFO, user);
+
+            Sleep(2000); // Wait for 2 seconds
         }else
         {
             cout << "Pleases select a valid option from the menu.";
         }
 
-        Sleep(2000); // Wait for 2 seconds
+        
 
-        //system("cls"); // Clear screen
+        //system("cls"); // Clear screen Uncomment this if program will be run on terminal.
     }
     return 0;
 }
