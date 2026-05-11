@@ -139,7 +139,8 @@ int main()
             cout << "Pleases select a valid option from the menu.";
         }
 
-        //system("cls"); // Clear screen Uncomment this if program will be run on terminal.
+        // Uncomment the code below if you will be running it outside of vsCode terminal.
+        //system("cls");
     }
     return 0;
 }

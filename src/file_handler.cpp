@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// File Path location for databases
 const char *ACTIVITY_PATH = "../data/physical_activities.txt";
 const char *USER_INFO = "../data/user_info.txt";
 
