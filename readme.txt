@@ -37,6 +37,7 @@ variables are written in snake case
     ...
     [ENDING FLAG]
 
+    ENDING FLAGS
     '--ENTRY--' for physical_activities.txt
     '--END--' for user_info.txt
 
