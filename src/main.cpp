@@ -6,7 +6,6 @@
 // Declare Global Variable:
 User user;
 
-
 int main()
 {
     int choice;
@@ -43,9 +42,9 @@ int main()
                 get_value(goal, "Selection: ");
             }
 
-            if (goal == 1) enum_goal = CARDIO;
+            if (goal == 1)      enum_goal = CARDIO;
             else if (goal == 2) enum_goal = STRENGTH;
-            else enum_goal = ENDURANCE;
+            else                enum_goal = ENDURANCE;
 
             // Get Physical Fitness Level
             cout << "What is your physical fitness level?\n";
@@ -61,9 +60,9 @@ int main()
                 get_value(level, "Selection: ");
             }
 
-            if (level == 1) enum_level = BEGINNER;
+            if (level == 1)     enum_level = BEGINNER;
             else if (level== 2) enum_level = INTERMEDIATE;
-            else enum_level = ADVANCED;
+            else                enum_level = ADVANCED;
 
             suggest_exercise(enum_level, enum_goal);
 
@@ -120,7 +119,7 @@ int main()
         {
             Physical_Activity *temp_activity = new Physical_Activity;
 
-            if ( log_physical_activity ( temp_activity , user) )
+            if ( log_physical_activity ( temp_activity , user ) )
             {
                 update_activities(ACTIVITY_PATH, *temp_activity); // Updates the database when activity is successfully logged 
             }
@@ -139,8 +138,6 @@ int main()
         {
             cout << "Pleases select a valid option from the menu.";
         }
-
-        
 
         //system("cls"); // Clear screen Uncomment this if program will be run on terminal.
     }
