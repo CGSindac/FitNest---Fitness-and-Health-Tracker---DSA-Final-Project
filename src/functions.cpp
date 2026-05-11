@@ -1,19 +1,20 @@
 #include "headers.cpp"
 #include "structures.cpp"
 #pragma once
-// 
+
 // Prototypes
 void display_main_menu();
-void update_user_info_process(User &user);
+void update_user_info_process(User &user); // Takes in a 'user' variable  as reference and modifies it with updated information based on the user's specification
 void display_user_status(const User &user);
-void display_activity(const Physical_Activity &physical_activity);
+void display_activity(const Physical_Activity &physical_activity); // Formats and displays all member variables of Physical_Activity Struct
 void suggest_exercise(Physical_Fitness_Level physical_level, Physical_Fitness_Goal physical_goal);
 
-bool log_physical_activity(Physical_Activity *container, const User &user);
+bool log_physical_activity(Physical_Activity *container, const User &user); // Takes in a container and modifies it based on the user's selected physical activity.
+                                                                            // Reads the user's weight to calculate the amount of calories burned 
 float calculate_BMI_score(float height, float weight);
 string classify_BMI(float BMI_score);
 
-
+// Value Validation functions
 void get_value(int &container, string prompt = "") 
 {
     cout << prompt;
@@ -43,6 +44,7 @@ void get_value(float &container, string prompt = "")
     }
 }
 
+
 void display_main_menu()
 {
     // Display Title
@@ -57,6 +59,7 @@ void display_main_menu()
     cout << "[5] - Quit.\n";
 }
 
+// function for option 1: Update User Info
 void update_user_info_process(User &user)
 {
     // Ask for the user's infromation
@@ -98,6 +101,7 @@ void update_user_info_process(User &user)
 
 }
 
+// functions for option2: log physical activity
 bool log_physical_activity(Physical_Activity *container, const User &user)
 {   
     cout << "\nLog new physical activity...\n";
@@ -212,7 +216,7 @@ bool log_physical_activity(Physical_Activity *container, const User &user)
     time_t timestamp;
     time(&timestamp);
 
-    string date = ctime(&timestamp);
+    string date = ctime(&timestamp); // Get the current timestamp
     date[24] = '\0';
 
     // Finalize Update
@@ -229,7 +233,7 @@ bool log_physical_activity(Physical_Activity *container, const User &user)
     cout << "Confirm Log? [Y/N]? ";
     cin >> update_choice;
 
-    while (update_choice != 'Y' && update_choice != 'y' &&  update_choice != 'N' && update_choice == 'n')
+    while (update_choice != 'Y' && update_choice != 'y' &&  update_choice != 'N' && update_choice != 'n')
     {
        cout << "Invalid choice... Confirm Log? [Y/N]? ";
        cin >> update_choice; 
@@ -269,6 +273,7 @@ string classify_BMI(float BMI_score)
     else                        return "Class 3 Obesity"; // Class 3 Obesity
 }
 
+// functions for option 3: Generate status report
 void display_user_status(const User &user)
 {   
     float BMI_score = calculate_BMI_score(user.height, user.weight);
@@ -297,6 +302,7 @@ void display_activity(const Physical_Activity &physical_activity)
     cout << "------------------------------\n";
 }
 
+// function for option 4: Suggest exercise
 void suggest_exercise(Physical_Fitness_Level physical_level, Physical_Fitness_Goal physical_goal)
 {   
     Exercise suggested_exercise;
